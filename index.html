@@ -263,6 +263,15 @@ a.wheelcard:hover{filter:brightness(var(--hov))}
 .egg-on [data-fell]{cursor:grab!important;filter:none!important}
 .egg-on [data-fell].grabbing{cursor:grabbing!important}
 .egg-on [data-fell] *{pointer-events:none!important}
+.vtabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.vtabs button{font:700 .95rem var(--sans);border:0;border-radius:99px;padding:10px 22px;cursor:pointer;color:var(--ink);background:color-mix(in srgb,var(--ink) 10%,transparent);transition:background .15s}
+.vtabs button:hover{background:color-mix(in srgb,var(--red) 28%,transparent)}
+.vtabs button[aria-selected="true"]{background:var(--red);color:var(--on-red)}
+.vframe{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;width:100%;margin:0 0 14px}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vfall{position:absolute;inset:0;margin:0;padding:24px;display:grid;place-items:center;text-align:center;color:#ddd;font:500 1rem var(--sans)}
+.vnote{margin:0;color:var(--muted)}
+.vnote a{color:var(--red);font-weight:700;margin-left:4px}
 a.streams{display:flex;flex-direction:column;justify-content:space-between;gap:14px;text-decoration:none;cursor:pointer;color:var(--ink)}
 a.streams:hover{filter:brightness(var(--hov))}
 .streams svg{width:30px;height:30px;color:var(--red);margin-bottom:10px}
@@ -361,12 +370,12 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
     <div class="shead"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="24" cy="24" r="19"/><path d="M24 24V5M24 24l16.5 9.5M24 24L7.5 33.5" /><path d="M24 5a19 19 0 0 1 16.5 28.5L24 24Z" fill="currentColor" opacity=".35"/><circle cx="24" cy="24" r="3.5" fill="currentColor"/></svg><h3>Roue du hasard</h3><p>Un film, un jeu ou un album : laisse le hasard décider pour toi.</p></div>
     <span class="more">Tourner la roue</span>
   </a>
-  <a class="tile streams w2" href="https://www.twitch.tv/narrko/videos?filter=archives&amp;sort=time" target="_blank" rel="noopener">
-    <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2.5 6.5V20H8v3h3l3-3h4l5-5V2H4Zm16 12-3 3h-5l-3 3v-3H5V4h15v10Zm-3-7h-2v5h2V7Zm-5 0h-2v5h2V7Z"/></svg><h3>Mes derniers streams</h3><p>Retrouve mes rediffusions les plus récentes sur Twitch.</p></div>
-    <span class="more">Voir les rediffusions</span>
+  <a class="tile streams w2" href="#/streams">
+    <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2.5 6.5V20H8v3h3l3-3h4l5-5V2H4Zm16 12-3 3h-5l-3 3v-3H5V4h15v10Zm-3-7h-2v5h2V7Zm-5 0h-2v5h2V7Z"/></svg><h3>Mes derniers streams</h3><p>Mon direct Twitch, directement ici.</p></div>
+    <span class="more">Voir le stream</span>
   </a>
-  <a class="tile streams w2" href="https://www.youtube.com/@NarkoXIV/videos" target="_blank" rel="noopener">
-    <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8ZM9.7 15.4V8.6l5.9 3.4-5.9 3.4Z"/></svg><h3>Mes dernières vidéos</h3><p>Retrouve mes vidéos les plus récentes sur YouTube.</p></div>
+  <a class="tile streams w2" href="#/videos">
+    <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8ZM9.7 15.4V8.6l5.9 3.4-5.9 3.4Z"/></svg><h3>Mes dernières vidéos</h3><p>Mes dernières vidéos YouTube, directement ici.</p></div>
     <span class="more">Voir les vidéos</span>
   </a>
 </main>
@@ -378,6 +387,25 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
   <section class="tile spotify" id="spotifyTile" hidden style="margin-bottom:14px"><h2>Ma playlist du moment</h2><div id="player"></div>
     <div class="row"><span class="date">Ce que j'écoute en ce moment</span><a id="spLink" href="#" target="_blank" rel="noopener">Ouvrir sur Spotify</a></div></section>
   <div class="bento" id="catPosts"></div>
+</main>
+<main id="videos" hidden>
+  <a class="back" href="#/">Retour à l'accueil</a>
+  <h1 class="cathead">Mes vidéos</h1>
+  <p class="catintro">Mes dernières vidéos YouTube et mon stream Twitch, à regarder sans quitter le site.</p>
+  <div class="vtabs" role="tablist" aria-label="Choisir une plateforme">
+    <button type="button" role="tab" data-v="yt" aria-selected="true">YouTube</button>
+    <button type="button" role="tab" data-v="tw" aria-selected="false">Twitch</button>
+  </div>
+  <section class="tile vpanel" data-v="yt">
+    <h2>Mes dernières vidéos</h2>
+    <div class="vframe" id="ytFrame"></div>
+    <p class="vnote">Le lecteur commence par ma vidéo la plus récente : la liste pour passer aux suivantes est dans le lecteur. <a href="https://www.youtube.com/@NarkoXIV" target="_blank" rel="noopener">Ouvrir ma chaîne sur YouTube</a></p>
+  </section>
+  <section class="tile vpanel" data-v="tw" hidden>
+    <h2>Mon stream</h2>
+    <div class="vframe" id="twFrame"></div>
+    <p class="vnote">Si je suis en direct, le live s'affiche ici (appuie sur lecture). Sinon, l'écran reste hors ligne. <a href="https://www.twitch.tv/narrko/videos?filter=archives&amp;sort=time" target="_blank" rel="noopener">Voir mes rediffusions sur Twitch</a></p>
+  </section>
 </main>
 <main id="roue" hidden>
   <a class="back" href="#/">Retour à l'accueil</a>
@@ -672,8 +700,8 @@ const SYN=[
  "Lors d'un road trip dans le désert du Nouveau-Mexique, une famille tombe en panne près d'un ancien site d'essais nucléaires. Des mutants qui y vivent la prennent pour cible."
 ];
 // Bandes-annonces : colle ici le lien YouTube (ou l'identifiant) de chaque film, dans l'ordre du classement
-// Lecteur intégré : à passer sur true si ton hébergeur autorise YouTube (ce n'est pas le cas ici)
-const EMBED=false;
+// Lecteur intégré : actif sur un vrai site en ligne (http/https), désactivé en local et dans l'aperçu de Claude
+const EMBED=location.protocol.startsWith("http")&&!/claude/i.test(location.hostname);
 const TRAILERS=["9YjClS39rGI","l8A_DMMJC_Q","","","","","","","",""];
 function ytId(u){if(!u)return null;if(/^[\w-]{11}$/.test(u))return u;const m=u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);return m?m[1]:null}
 function posterEl(f,i,mini){
@@ -715,9 +743,10 @@ function route(){
   const tp=raw==="cinema/top10";
   const gm=raw==="mini-jeux";
   const rw=raw==="roue";
-  const k=(g||tp||gm||rw)?"":raw;
+  const vd=raw==="videos"||raw==="streams";
+  const k=(g||tp||gm||rw||vd)?"":raw;
   const c=cats[k];
-  $("#home").hidden=!!c||g||tp||gm||rw;$("#roue").hidden=!rw;$("#catview").hidden=!c;$("#gallery").hidden=!g;$("#top10").hidden=!tp;$("#games").hidden=!gm;
+  $("#home").hidden=!!c||g||tp||gm||rw||vd;$("#roue").hidden=!rw;$("#videos").hidden=!vd;$("#catview").hidden=!c;$("#gallery").hidden=!g;$("#top10").hidden=!tp;$("#games").hidden=!gm;
   if(g)renderGallery();
   if(tp)renderTop();
   if(c){
@@ -1928,6 +1957,36 @@ function loadPlayer(){if($("#player").firstChild)return;const f=document.createE
     const n=Date.now();clicks=(n-clickT<900)?clicks+1:1;clickT=n;
     if(clicks>=5){clicks=0;e.preventDefault();e.stopImmediatePropagation();start()}
   },true);
+})();
+
+// Lecteurs YouTube et Twitch
+(function(){
+  const YT_UPLOADS="UUzb65PrpWc87tAEv_brRCMg",TW_CHANNEL="narrko";
+  const live=location.protocol.startsWith("http")&&!/claude/i.test(location.hostname);
+  const tabs=[...document.querySelectorAll(".vtabs button")],panes=[...document.querySelectorAll(".vpanel")],done={};
+  function mount(id){
+    if(done[id])return;done[id]=true;
+    const box=$(id==="yt"?"#ytFrame":"#twFrame");
+    if(!live){box.innerHTML='<p class="vfall">Le lecteur s\'affichera sur le site en ligne (il ne fonctionne pas dans cet aperçu).</p>';return}
+    const f=document.createElement("iframe");
+    f.title=id==="yt"?"Mes dernières vidéos YouTube":"Mon stream Twitch";
+    f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";f.allowFullscreen=true;
+    f.src=id==="yt"
+      ?"https://www.youtube-nocookie.com/embed/videoseries?list="+YT_UPLOADS
+      :"https://player.twitch.tv/?channel="+TW_CHANNEL+"&parent="+encodeURIComponent(location.hostname)+"&autoplay=false";
+    box.appendChild(f);
+  }
+  function select(id){
+    tabs.forEach(t=>t.setAttribute("aria-selected",String(t.dataset.v===id)));
+    panes.forEach(p=>{p.hidden=p.dataset.v!==id});
+    mount(id);
+  }
+  tabs.forEach(t=>t.addEventListener("click",ev=>{if(ev.detail>0)t.blur();select(t.dataset.v)}));
+  // l'onglet affiché dépend de la carte utilisée sur l'accueil
+  new MutationObserver(()=>{if(!$("#videos").hidden)select(curRoute==="streams"?"tw":"yt")}).observe($("#videos"),{attributes:true,attributeFilter:["hidden"]});
+  // arrivée directe sur la page (lien partagé, rechargement)
+  const sync=()=>{if(!$("#videos").hidden)select(curRoute==="streams"?"tw":"yt")};
+  sync();addEventListener("hashchange",sync);addEventListener("popstate",sync);
 })();
 
 // Onglets des mini-jeux
