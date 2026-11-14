@@ -1,0 +1,108 @@
+# Met à jour videos.json toutes les 3 heures : tes 4 dernières vidéos YouTube et tes 4 dernières rediffusions Twitch.
+# À placer dans le dépôt GitHub sous le chemin :  .github/workflows/update-videos.yml
+name: Mettre à jour les vidéos
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Récupérer les dernières vidéos
+        env:
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.parse, urllib.request
+          import xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+
+          YT_CHANNEL = "UCzb65PrpWc87tAEv_brRCMg"   # chaîne YouTube @NarkoXIV
+          TW_LOGIN = "narrko"                        # chaîne Twitch
+          N = 4
+          PATH = "videos.json"
+
+          def get(url, headers=None, data=None):
+              req = urllib.request.Request(url, data=data, headers=headers or {})
+              with urllib.request.urlopen(req, timeout=25) as r:
+                  return r.read()
+
+          try:
+              old = json.load(open(PATH, encoding="utf-8"))
+          except Exception:
+              old = {}
+          data = {"youtube": old.get("youtube", []), "twitch": old.get("twitch", [])}
+
+          # YouTube : flux public de la chaîne, aucune clé nécessaire
+          try:
+              ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
+              root = ET.fromstring(get("https://www.youtube.com/feeds/videos.xml?channel_id=" + YT_CHANNEL))
+              items = []
+              for e in root.findall("a:entry", ns)[:N]:
+                  vid = e.find("yt:videoId", ns).text
+                  items.append({
+                      "id": vid,
+                      "title": e.find("a:title", ns).text,
+                      "date": e.find("a:published", ns).text,
+                      "thumb": "https://i.ytimg.com/vi/%s/mqdefault.jpg" % vid,
+                      "url": "https://www.youtube.com/watch?v=" + vid,
+                  })
+              if items:
+                  data["youtube"] = items
+              print("YouTube :", len(items), "vidéo(s)")
+          except Exception as ex:
+              print("YouTube : échec,", ex)
+
+          # Twitch : API officielle (nécessite les deux secrets du dépôt)
+          cid, sec = os.environ.get("TWITCH_CLIENT_ID"), os.environ.get("TWITCH_CLIENT_SECRET")
+          if cid and sec:
+              try:
+                  body = urllib.parse.urlencode({"client_id": cid, "client_secret": sec, "grant_type": "client_credentials"}).encode()
+                  token = json.loads(get("https://id.twitch.tv/oauth2/token", data=body))["access_token"]
+                  h = {"Client-Id": cid, "Authorization": "Bearer " + token}
+                  uid = json.loads(get("https://api.twitch.tv/helix/users?login=" + TW_LOGIN, h))["data"][0]["id"]
+                  vids = json.loads(get("https://api.twitch.tv/helix/videos?user_id=%s&type=archive&first=%d" % (uid, N), h))["data"]
+                  items = []
+                  for v in vids:
+                      if not v.get("thumbnail_url"):
+                          continue                      # rediffusion encore en cours d'enregistrement
+                      items.append({
+                          "id": v["id"],
+                          "title": v["title"],
+                          "date": v["created_at"],
+                          "duration": v.get("duration", ""),
+                          "thumb": v["thumbnail_url"].replace("%{width}", "320").replace("%{height}", "180"),
+                          "url": v["url"],
+                      })
+                  data["twitch"] = items
+                  print("Twitch :", len(items), "rediffusion(s)")
+              except Exception as ex:
+                  print("Twitch : échec,", ex)
+          else:
+              print("Twitch : clés absentes, étape ignorée")
+
+          # On n'écrit le fichier (et donc on ne crée une modification) que si le contenu a changé
+          if data != {"youtube": old.get("youtube", []), "twitch": old.get("twitch", [])} or not old:
+              data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+              with open(PATH, "w", encoding="utf-8") as f:
+                  json.dump(data, f, ensure_ascii=False, indent=2)
+              print("videos.json mis à jour")
+          else:
+              print("Rien de nouveau")
+          PY
+
+      - name: Enregistrer les changements
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add videos.json
+          git diff --cached --quiet || (git commit -m "Mise à jour des vidéos" && git push)
