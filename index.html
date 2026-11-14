@@ -168,9 +168,9 @@ a.topcard:hover{filter:brightness(var(--hov))}
 a.gamescard{display:flex;flex-direction:column;gap:14px;text-decoration:none;cursor:pointer;color:var(--ink)}
 a.gamescard:hover{filter:brightness(var(--hov))}
 .gamescard .more{font-family:var(--sans);font-weight:700;color:var(--red)}
-.gprev{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:center}
+.gprev{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-content:center}
 .gi{border-radius:14px;background:color-mix(in srgb,var(--ink) 9%,transparent);color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px 4px;min-width:0}
-.gi svg{width:44%;max-width:44px;height:auto}
+.gi svg{width:46%;max-width:40px;height:auto}
 .gi span{font:700 .78rem var(--sans);color:var(--ink);text-align:center;line-height:1.15}
 .gtabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
 .gtabs button{font:700 .95rem var(--sans);border:0;border-radius:99px;padding:10px 22px;cursor:pointer;color:var(--ink);background:color-mix(in srgb,var(--ink) 10%,transparent);transition:background .15s}
@@ -204,6 +204,68 @@ a.gamescard:hover{filter:brightness(var(--hov))}
 .wk.pr{background:#e8b24a;color:#171112}
 :root[data-cb="on"] .wk.pr{background:#e69f00}
 .wk.no{opacity:.35}
+
+.ch-stage{position:relative;aspect-ratio:11/10;width:100%;border-radius:20px;overflow:hidden;--rc:#9aa3ad;--ro:0;isolation:isolate;background:radial-gradient(70% 60% at 50% 56%,color-mix(in srgb,var(--rc) 20%,transparent),transparent 72%),color-mix(in srgb,var(--ink) 7%,transparent)}
+.ch-rays{position:absolute;inset:-45%;z-index:0;opacity:var(--ro);transition:opacity .5s;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--rc) 60%,transparent) 0 7deg,transparent 7deg 20deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 60%);mask:radial-gradient(circle,#000 0,transparent 60%);animation:chspin 10s linear infinite}
+@keyframes chspin{to{transform:rotate(360deg)}}
+.ch-chest{position:absolute;left:50%;top:62%;width:62%;transform:translate(-50%,-50%);z-index:1;transition:opacity .35s,top .35s,width .35s;--amp:0}
+.ch-chest svg{display:block;width:100%;overflow:visible}
+.ch-chest.idle{animation:chbob 2.6s ease-in-out infinite}
+@keyframes chbob{50%{transform:translate(-50%,calc(-50% - 7px))}}
+.ch-chest.shake{animation:chshake .09s linear infinite alternate}
+@keyframes chshake{from{transform:translate(calc(-50% - var(--amp)*1px),-50%) rotate(calc(var(--amp)*-.55deg))}to{transform:translate(calc(-50% + var(--amp)*1px),-50%) rotate(calc(var(--amp)*.55deg))}}
+.ch-chest .lid{transition:transform .4s cubic-bezier(.3,1.7,.5,1);transform-origin:40px 106px}
+.ch-chest.open .lid{transform:translateY(-40px) rotate(-9deg)}
+.ch-chest .glow{opacity:0;transition:opacity .25s}
+.ch-chest.open .glow,.ch-stage.tease .ch-chest .glow{opacity:1}
+.ch-stage.tease .ch-chest{filter:drop-shadow(0 0 18px var(--rc))}
+.ch-chest.away{opacity:0;top:34%;width:40%}
+.ch-fx{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+.ch-flash{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;background:radial-gradient(circle,#fff 0,var(--rc) 52%,transparent 82%)}
+.ch-flash.go{animation:chflash .7s ease-out}
+@keyframes chflash{0%{opacity:.9}100%{opacity:0}}
+.ch-stage.sh{animation:chstage .55s}
+@keyframes chstage{15%{transform:translate(-6px,3px)}35%{transform:translate(6px,-4px)}55%{transform:translate(-4px,-2px)}75%{transform:translate(3px,3px)}}
+.ch-card{position:absolute;left:50%;top:40%;z-index:3;width:44%;transform:translate(-50%,-50%) scale(.2);opacity:0;text-align:center;padding:16px 10px 12px;border-radius:18px;background:linear-gradient(165deg,color-mix(in srgb,var(--rc) 34%,#1a1214),#140d0f);box-shadow:0 0 0 3px var(--rc),0 0 38px color-mix(in srgb,var(--rc) 70%,transparent);color:#fff}
+.ch-card.show{animation:chpop .75s cubic-bezier(.2,1.5,.4,1) forwards}
+.ch-card.m.show{animation:chpop .75s cubic-bezier(.2,1.5,.4,1) forwards,chholo 2.4s linear .75s infinite}
+@keyframes chpop{0%{transform:translate(-50%,10%) scale(.2) rotate(-14deg);opacity:0}55%{opacity:1}100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1}}
+@keyframes chholo{0%,100%{box-shadow:0 0 0 3px #ff4d8d,0 0 44px #ff4d8d}25%{box-shadow:0 0 0 3px #ffb733,0 0 44px #ffb733}50%{box-shadow:0 0 0 3px #4aa3ff,0 0 44px #4aa3ff}75%{box-shadow:0 0 0 3px #b46bff,0 0 44px #b46bff}}
+.ch-card .ico{font-size:3.5rem;line-height:1.05;margin-bottom:8px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+.ch-card .ico img{width:68%;aspect-ratio:2/3;object-fit:cover;border-radius:8px;display:block;margin:0 auto}
+.ch-card .nm{font:800 1.02rem/1.15 var(--sans)}
+.ch-card .rr{font:700 .72rem var(--sans);color:var(--rc);text-transform:uppercase;letter-spacing:.14em;margin-top:5px}
+.ch-card .st{font-size:1.1rem;color:var(--rc);min-height:1.4em;letter-spacing:.1em;margin-top:2px}
+.ch-card .st i{font-style:normal;display:inline-block;opacity:0;transform:scale(2.4)}
+.ch-card .st i.on{opacity:1;transform:scale(1);transition:all .22s cubic-bezier(.3,1.8,.5,1)}
+.ch-new{position:absolute;top:-12px;right:-12px;background:var(--rc);color:#111;font:800 .68rem var(--sans);padding:4px 10px;border-radius:99px;transform:rotate(9deg) scale(0);transition:transform .3s cubic-bezier(.3,1.8,.5,1)}
+.ch-new.on{transform:rotate(9deg) scale(1)}
+.ch-grid{position:absolute;inset:7% 4%;z-index:3;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:center}
+.ch-grid[hidden]{display:none}
+.ch-mini{aspect-ratio:3/4;perspective:600px;position:relative}
+.ch-mini .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.3,1.3,.5,1)}
+.ch-mini.flip .in{transform:rotateY(180deg)}
+.ch-mini .f,.ch-mini .b{position:absolute;inset:0;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;overflow:hidden}
+.ch-mini .b{background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--red) 40%,transparent) 0 6px,color-mix(in srgb,var(--red) 18%,transparent) 6px 12px),var(--card);font:800 1.3rem var(--sans);color:var(--ink)}
+.ch-mini .f{transform:rotateY(180deg);background:linear-gradient(165deg,color-mix(in srgb,var(--rc) 34%,#1a1214),#140d0f);box-shadow:inset 0 0 0 2px var(--rc),0 0 14px color-mix(in srgb,var(--rc) 55%,transparent);color:#fff}
+.ch-mini .f .ico{font-size:1.7rem;line-height:1}
+.ch-mini .f .ico img{width:34px;aspect-ratio:2/3;object-fit:cover;border-radius:4px;display:block}
+.ch-mini .f small{font:700 .52rem var(--sans);color:var(--rc);text-transform:uppercase;letter-spacing:.08em}
+.ch-mini.best{z-index:2}
+.ch-mini.best .in{animation:chbest .8s ease-in-out 3}
+@keyframes chbest{50%{transform:rotateY(180deg) scale(1.18)}}
+.ch-odds{font-size:.9rem;margin-top:-4px}
+.ch-h{margin:22px 0 4px}
+.ch-h span{color:var(--muted);font-weight:600;margin-left:6px}
+.ch-coll{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:10px}
+.ch-cell{position:relative;aspect-ratio:1;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--ink) 8%,transparent);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--rc) 55%,transparent);font-size:1.8rem}
+.ch-cell.lock{opacity:.38;filter:grayscale(1);font:800 1.2rem var(--sans)}
+.ch-cell img{width:56%;aspect-ratio:2/3;object-fit:cover;border-radius:5px;display:block}
+.ch-cell .n{position:absolute;right:4px;bottom:3px;font:800 .66rem var(--sans);color:#fff;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:99px}
+.ch-cell .rs{position:absolute;left:5px;top:2px;font-size:.55rem;color:var(--rc);letter-spacing:.02em}
+.ch-cell.fresh{animation:chfresh 1.1s ease-out 2}
+@keyframes chfresh{50%{transform:scale(1.14);box-shadow:inset 0 0 0 2px var(--rc),0 0 18px var(--rc)}}
+@media (max-width:760px){.ch-card{width:58%}}
 .snk.brk{aspect-ratio:4/3}
 .brow{display:flex;gap:10px;flex-wrap:wrap}
 .c4info button.ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 35%,transparent)}
@@ -272,6 +334,11 @@ a.wheelcard:hover{filter:brightness(var(--hov))}
 .vfall{position:absolute;inset:0;margin:0;padding:24px;display:grid;place-items:center;text-align:center;color:#ddd;font:500 1rem var(--sans)}
 .vnote{margin:0;color:var(--muted)}
 .vnote a{color:var(--red);font-weight:700;margin-left:4px}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:2px 0 0}
+.thumbs[hidden]{display:none}
+.thumbs span{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:color-mix(in srgb,var(--ink) 10%,transparent)}
+.thumbs span::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
 a.streams{display:flex;flex-direction:column;justify-content:space-between;gap:14px;text-decoration:none;cursor:pointer;color:var(--ink)}
 a.streams:hover{filter:brightness(var(--hov))}
 .streams svg{width:30px;height:30px;color:var(--red);margin-bottom:10px}
@@ -355,7 +422,7 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
   <a class="tile cat" href="#/series-tv"><span class="ico">📺</span><span><b>Séries TV</b></span></a>
 
   <a class="tile gamescard w2 h2" href="#/mini-jeux">
-    <div class="shead"><h3>Mini-jeux</h3><small>Six petits jeux à portée de clic</small></div>
+    <div class="shead"><h3>Mini-jeux</h3><small>Sept petits jeux à portée de clic</small></div>
     <div class="gprev">
       <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 8v32M30 8v32M8 18h32M8 30h32"/><path d="M10.5 10.5l5 5M15.5 10.5l-5 5"/><circle cx="24" cy="24" r="3.6"/><path d="M32.5 32.5l5 5M37.5 32.5l-5 5"/></svg><span>Morpion</span></div>
       <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="4.6" opacity=".4"/><circle cx="24" cy="12" r="4.6" opacity=".4"/><circle cx="36" cy="12" r="4.6" opacity=".4"/><circle cx="12" cy="24" r="4.6" opacity=".4"/><circle cx="24" cy="24" r="4.6" fill="currentColor"/><circle cx="36" cy="24" r="4.6" opacity=".4"/><circle cx="12" cy="36" r="4.6" fill="currentColor"/><circle cx="24" cy="36" r="4.6"/><circle cx="36" cy="36" r="4.6" fill="currentColor"/></svg><span>Puissance 4</span></div>
@@ -363,6 +430,7 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
       <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="5" y="8" width="12" height="16" rx="2.5" fill="currentColor"/><rect x="18" y="8" width="12" height="16" rx="2.5" opacity=".45"/><rect x="31" y="8" width="12" height="16" rx="2.5" opacity=".45"/><rect x="5" y="26" width="12" height="16" rx="2.5" opacity=".45"/><rect x="18" y="26" width="12" height="16" rx="2.5" opacity=".45"/><rect x="31" y="26" width="12" height="16" rx="2.5" fill="currentColor"/></svg><span>Memory</span></div>
       <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="6" y="6" width="10" height="10" rx="2" opacity=".45"/><rect x="19" y="6" width="10" height="10" rx="2" fill="currentColor"/><rect x="32" y="6" width="10" height="10" rx="2" opacity=".45"/><circle cx="11" cy="24" r="5"/><rect x="19" y="19" width="10" height="10" rx="2" opacity=".45"/><rect x="32" y="19" width="10" height="10" rx="2" fill="currentColor"/><rect x="6" y="32" width="10" height="10" rx="2" fill="currentColor"/><rect x="19" y="32" width="10" height="10" rx="2" fill="currentColor"/><rect x="32" y="32" width="10" height="10" rx="2" fill="currentColor"/></svg><span>Mot mystère</span></div>
       <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="7" width="12" height="7" rx="1.8" fill="currentColor"/><rect x="18" y="7" width="12" height="7" rx="1.8" fill="currentColor"/><rect x="31" y="7" width="12" height="7" rx="1.8" opacity=".45"/><rect x="5" y="16" width="12" height="7" rx="1.8" opacity=".45"/><rect x="18" y="16" width="12" height="7" rx="1.8" fill="currentColor"/><rect x="31" y="16" width="12" height="7" rx="1.8" fill="currentColor"/><circle cx="28" cy="31" r="3" fill="currentColor" stroke="none"/><rect x="14" y="40" width="20" height="4.5" rx="2.2" fill="currentColor" stroke="none"/></svg><span>Casse-briques</span></div>
+      <div class="gi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M8 23v15a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V23"/><path d="M6 23a18 13 0 0 1 36 0Z"/><rect x="20.5" y="23" width="7" height="9" rx="1.5" fill="currentColor"/><path d="M14 23v17M34 23v17" opacity=".5"/><path d="M24 6v-3M12 10l-2-2M36 10l2-2" stroke-linecap="round"/></svg><span>Coffre</span></div>
     </div>
     <span class="more">Jouer</span>
   </a>
@@ -372,10 +440,12 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
   </a>
   <a class="tile streams w2" href="#/streams">
     <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2.5 6.5V20H8v3h3l3-3h4l5-5V2H4Zm16 12-3 3h-5l-3 3v-3H5V4h15v10Zm-3-7h-2v5h2V7Zm-5 0h-2v5h2V7Z"/></svg><h3>Mes derniers streams</h3><p>Mon direct Twitch, directement ici.</p></div>
+    <div class="thumbs" data-src="twitch" hidden></div>
     <span class="more">Voir le stream</span>
   </a>
   <a class="tile streams w2" href="#/videos">
     <div class="shead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8ZM9.7 15.4V8.6l5.9 3.4-5.9 3.4Z"/></svg><h3>Mes dernières vidéos</h3><p>Mes dernières vidéos YouTube, directement ici.</p></div>
+    <div class="thumbs" data-src="youtube" hidden></div>
     <span class="more">Voir les vidéos</span>
   </a>
 </main>
@@ -440,7 +510,7 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
 <main id="games" hidden>
   <a class="back" href="#/">Retour à l'accueil</a>
   <h1 class="cathead">Mini-jeux</h1>
-  <p class="catintro">Six petits jeux pour passer le temps. Choisis le tien.</p>
+  <p class="catintro">Sept petits jeux pour passer le temps. Choisis le tien.</p>
   <div class="gtabs" role="tablist" aria-label="Choisir un jeu">
     <button type="button" role="tab" data-g="ttt" aria-selected="true">Morpion</button>
     <button type="button" role="tab" data-g="c4" aria-selected="false">Puissance 4</button>
@@ -448,6 +518,7 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
     <button type="button" role="tab" data-g="mem" aria-selected="false">Memory</button>
     <button type="button" role="tab" data-g="wd" aria-selected="false">Mot mystère</button>
     <button type="button" role="tab" data-g="brk" aria-selected="false">Casse-briques</button>
+    <button type="button" role="tab" data-g="chest" aria-selected="false">Coffre</button>
   </div>
   <div class="gpane" data-g="ttt"><section class="tile ttt w2 h2" aria-label="Jeu du morpion">
     <h2>Morpion</h2>
@@ -525,6 +596,46 @@ footer{padding:26px 4px 10px;font-family:var(--sans);font-size:.9rem;color:var(-
       </div>
       <canvas class="snk brk" id="brk" width="600" height="450" aria-label="Grille du jeu Casse-briques"></canvas>
     </div>
+  </section></div>
+  <div class="gpane" data-g="chest" hidden><section class="tile chest w4" aria-label="Jeu du coffre mystère">
+    <div class="c4wrap">
+      <div class="c4info">
+        <h2>Coffre mystère</h2>
+        <h3 class="c4msg" id="chMsg" aria-live="polite"></h3>
+        <p class="c4hint">Ouvre un coffre pour découvrir un objet. Plus il est rare, plus l'ouverture est spectaculaire. Les doublons te rapportent des pièces, et un objet épique ou mieux est garanti tous les 10 coffres. Jeu gratuit, avec des pièces virtuelles uniquement.</p>
+        <p class="c4hint ch-odds">Taux : Commun 60 %, Rare 25 %, Épique 10 %, Légendaire 4 %, Mythique 1 %. La garantie s'ajoute à ces taux.</p>
+        <div class="c4score" id="chStat"></div>
+        <div class="brow"><button type="button" id="chOpen">Ouvrir (30)</button><button type="button" id="chOpen10" class="ghost">Ouvrir ×10 (270)</button></div>
+        <div class="brow"><button type="button" id="chSkip" class="ghost" hidden>Passer l'animation</button><button type="button" id="chFree" hidden>+100 pièces gratuites</button></div>
+        <div class="brow"><button type="button" id="chSnd" class="ghost">Son : activé</button><button type="button" id="chReset" class="ghost">Réinitialiser</button></div>
+      </div>
+      <div class="ch-stage" id="chStage">
+        <div class="ch-rays"></div>
+        <div class="ch-chest idle" id="chChest"><svg viewBox="0 0 260 220" aria-hidden="true">
+            <ellipse cx="130" cy="203" rx="98" ry="12" fill="rgba(0,0,0,.4)"/>
+            <g class="glow"><ellipse cx="130" cy="106" rx="82" ry="18" fill="var(--rc)"/><ellipse cx="130" cy="106" rx="50" ry="9" fill="#fff" opacity=".85"/></g>
+            <g class="body">
+              <rect x="40" y="104" width="180" height="90" rx="10" fill="#4a2c2f"/>
+              <rect x="40" y="104" width="180" height="14" fill="#38201f"/>
+              <rect x="62" y="104" width="16" height="90" fill="#e0b85f"/><rect x="182" y="104" width="16" height="90" fill="#e0b85f"/>
+              <rect x="40" y="164" width="180" height="9" fill="#e0b85f" opacity=".92"/>
+              <rect x="114" y="112" width="32" height="38" rx="6" fill="#e0b85f"/><circle cx="130" cy="128" r="5.5" fill="#2a1416"/><rect x="128" y="130" width="4" height="10" rx="2" fill="#2a1416"/>
+            </g>
+            <g class="lid">
+              <defs><clipPath id="chLidClip"><path d="M40 106 Q40 38 130 38 Q220 38 220 106 Z"/></clipPath></defs>
+              <path d="M40 106 Q40 38 130 38 Q220 38 220 106 Z" fill="#5d3639"/>
+              <g clip-path="url(#chLidClip)"><rect x="62" y="30" width="16" height="80" fill="#e0b85f"/><rect x="182" y="30" width="16" height="80" fill="#e0b85f"/><path d="M60 56 Q130 24 200 56" stroke="#fff" stroke-opacity=".18" stroke-width="8" fill="none" stroke-linecap="round"/></g>
+              <rect x="40" y="98" width="180" height="10" rx="3" fill="#e0b85f"/>
+            </g>
+          </svg></div>
+        <div class="ch-card" id="chCard"><span class="ch-new" id="chNew"></span><div class="ico"></div><div class="nm"></div><div class="rr"></div><div class="st"></div></div>
+        <div class="ch-grid" id="chGrid" hidden></div>
+        <canvas class="ch-fx" id="chFx"></canvas>
+        <div class="ch-flash" id="chFlash"></div>
+      </div>
+    </div>
+    <h2 class="ch-h">Collection <span id="chProg"></span></h2>
+    <div class="ch-coll" id="chColl"></div>
   </section></div>
 </main>
 <main id="top10" hidden>
@@ -1987,6 +2098,318 @@ function loadPlayer(){if($("#player").firstChild)return;const f=document.createE
   // arrivée directe sur la page (lien partagé, rechargement)
   const sync=()=>{if(!$("#videos").hidden)select(curRoute==="streams"?"tw":"yt")};
   sync();addEventListener("hashchange",sync);addEventListener("popstate",sync);
+})();
+
+// Miniatures des dernières vidéos (fichier videos.json mis à jour automatiquement)
+(function(){
+  if(!window.fetch||!location.protocol.startsWith("http"))return;
+  fetch("videos.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
+    if(!d)return;
+    document.querySelectorAll(".thumbs").forEach(box=>{
+      const list=(d[box.dataset.src]||[]).filter(v=>v&&v.thumb).slice(0,4);
+      if(!list.length)return;
+      list.forEach(v=>{
+        const s=document.createElement("span"),im=document.createElement("img");
+        s.title=v.title||"";im.alt="";im.src=v.thumb;im.loading="lazy";im.decoding="async";
+        im.onerror=()=>{s.remove();if(!box.children.length)box.hidden=true};
+        s.appendChild(im);box.appendChild(s);
+      });
+      box.setAttribute("aria-hidden","true");box.hidden=false;
+    });
+  }).catch(()=>{});
+})();
+
+// Coffre mystère : tirages, raretés, animations et sons
+(function(){
+  const COST=30,COST10=270,PITY=9,FREE=100;
+  const R=[
+    {n:"Commun",w:60,s:1,c:"#9aa3ad",g:5},
+    {n:"Rare",w:25,s:2,c:"#4aa3ff",g:10},
+    {n:"Épique",w:10,s:3,c:"#b46bff",g:25},
+    {n:"Légendaire",w:4,s:4,c:"#ffb733",g:60},
+    {n:"Mythique",w:1,s:5,c:"#ff4d8d",g:150}
+  ];
+  const ITEMS=[
+    {n:"Manette fatiguée",e:"🎮",r:0},{n:"Pop-corn tiède",e:"🍿",r:0},{n:"Casque emmêlé",e:"🎧",r:0},{n:"Cassette rembobinée",e:"📼",r:0},
+    {n:"Disquette 1,44 Mo",e:"💾",r:0},{n:"Joystick grippé",e:"🕹️",r:0},{n:"Soda sans bulles",e:"🥤",r:0},{n:"Télé à tube",e:"📺",r:0},
+    {n:"Clap de tournage",e:"🎬",r:1},{n:"Vinyle rayé mais aimé",e:"💿",r:1},{n:"Pièce de puzzle",e:"🧩",r:1},{n:"Ticket de cinéma",e:"🎟️",r:1},
+    {n:"Micro de karaoké",e:"🎤",r:1},{n:"Piles chargées",e:"🔋",r:1},{n:"Dé truqué",e:"🎲",r:1},
+    {n:"Masque de renard",e:"🦊",r:2},{n:"Chapeau rose",e:"🎩",r:2},{n:"Lame pixelisée",e:"🗡️",r:2},{n:"Bouclier de bois",e:"🛡️",r:2},
+    {n:"Potion de vie",e:"🧪",r:2},{n:"Arc de légende",e:"🏹",r:2},
+    {n:"Couronne du boss final",e:"👑",r:3},{n:"Œuf de dragon",e:"🐉",r:3},{n:"Orbe de sauvegarde",e:"🔮",r:3},{n:"Fusée de speedrun",e:"🚀",r:3},{n:"Trophée platine",e:"🏆",r:3},
+    {n:"Affiche : Scarface",e:"🎞️",r:4,img:0},{n:"Affiche : The Thing",e:"🎞️",r:4,img:1},{n:"Affiche : Drive",e:"🎞️",r:4,img:2},{n:"Diamant du créateur",e:"💎",r:4}
+  ];
+  const reduced=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  let S={coins:300,owned:{},opened:0,pity:0,best:-1};
+  try{const j=JSON.parse(localStorage.getItem("coffre")||"null");if(j&&typeof j==="object")S=Object.assign(S,j)}catch(e){}
+  const save=()=>{try{localStorage.setItem("coffre",JSON.stringify(S))}catch(e){}};
+  const stage=$("#chStage"),chest=$("#chChest"),card=$("#chCard"),grid=$("#chGrid"),msg=$("#chMsg"),flashEl=$("#chFlash");
+  let busy=false,shown=S.coins,skipFlag=false,waiters=[],resetArm=0;
+
+  // ---------- sons (synthétisés par le navigateur) ----------
+  let ac=null,master=null,noiseBuf=null,soundOn=true;
+  try{soundOn=localStorage.getItem("coffreSound")!=="off"}catch(e){}
+  function A(){
+    if(!soundOn)return null;
+    if(!ac){
+      const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
+      try{ac=new C()}catch(e){return null}
+      master=ac.createDynamicsCompressor();master.connect(ac.destination);
+      noiseBuf=ac.createBuffer(1,ac.sampleRate,ac.sampleRate);
+      const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    }
+    if(ac.state==="suspended")ac.resume();
+    return ac;
+  }
+  function tone(f,d,type,vol,delay,slide){
+    const a=A();if(!a)return;
+    const t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();
+    o.type=type||"sine";o.frequency.setValueAtTime(f,t);
+    if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f*slide),t+d);
+    g.gain.setValueAtTime(vol||.06,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.03);
+  }
+  function hiss(d,vol,type,f,q,delay){
+    const a=A();if(!a)return;
+    const t=a.currentTime+(delay||0),s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();
+    s.buffer=noiseBuf;fl.type=type;fl.frequency.value=f;fl.Q.value=q||.7;
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    s.connect(fl);fl.connect(g);g.connect(master);s.start(t,Math.random()*.5);s.stop(t+d+.03);
+  }
+  // accord chaud : plusieurs ondes légèrement désaccordées, filtrées, avec une montée douce
+  function chord(freqs,d,vol,att,delay,cut){
+    const a=A();if(!a)return;
+    const t=a.currentTime+(delay||0),g=a.createGain(),lp=a.createBiquadFilter();
+    lp.type="lowpass";lp.frequency.value=cut||1600;
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    lp.connect(g);g.connect(master);
+    freqs.forEach(f=>[-6,0,6].forEach(dt=>{const o=a.createOscillator();o.type="sawtooth";o.frequency.value=f;o.detune.value=dt;o.connect(lp);o.start(t);o.stop(t+d+.05)}));
+  }
+  function sparkle(n,span,delay){for(let i=0;i<n;i++)tone(rnd(2200,6200),rnd(.05,.12),"triangle",.03,(delay||0)+Math.random()*span)}
+  function boom(d,delay){tone(62,d,"sine",.22,delay||0,.35);hiss(d*.7,.07,"lowpass",240,1,delay||0)}
+  function sweep(d,from,to,vol){
+    const a=A();if(!a)return;const t=a.currentTime,o=a.createOscillator(),g=a.createGain(),lp=a.createBiquadFilter();
+    o.type="sawtooth";o.frequency.setValueAtTime(from,t);o.frequency.exponentialRampToValueAtTime(to,t+d);lp.type="lowpass";lp.frequency.value=2400;
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.04,t+d*.8);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(lp);lp.connect(g);g.connect(master);o.start(t);o.stop(t+d+.05);
+  }
+  const arp=(notes,gap,d,type,vol,delay)=>notes.forEach((f,i)=>tone(f,d,type,vol,(delay||0)+i*gap));
+  const sfx={
+    tick:i=>tone(220+i*38,.04,"square",.045),
+    rumble:d=>{tone(52,d,"sine",.11,0,2.4);hiss(d,.04,"lowpass",260,1,0)},
+    open:()=>{hiss(.5,.1,"bandpass",1300,.8,0);tone(170,.28,"sawtooth",.05,0,3.2)},
+    star:i=>tone(740*Math.pow(1.12,i),.13,"triangle",.07),
+    coin:()=>{tone(1318,.07,"square",.04);tone(1760,.16,"square",.04,.07)},
+    // sons de révélation, de plus en plus riches
+    big:[
+      ()=>{tone(660,.14,"triangle",.1);tone(990,.22,"sine",.05,.06)},
+      ()=>{arp([784,988,1175],.08,.18,"triangle",.1);sparkle(5,.4)},
+      ()=>{arp([523,659,784,1047,1319],.07,.22,"triangle",.1);boom(.5);sweep(.45,200,1500,.04);sparkle(10,.7)},
+      ()=>{boom(.8);hiss(1,.08,"highpass",3500,.6,.02);chord([262,330,392,523],1.4,.07,.15);arp([523,659,784,1047,1319,1568],.06,.24,"square",.04);arp([1047,1319,1568,2093],.09,.3,"triangle",.07,.45);sparkle(18,1)},
+      ()=>{sweep(.7,160,2200,.05);boom(1.1,.55);hiss(1.5,.1,"highpass",2500,.5,.55);chord([262,330,392,523],2.1,.09,.4,.5,1500);chord([523,659,784,1047],1.8,.06,.25,.55,2400);arp([523,659,784,1047,1319,1568,2093,2637],.075,.3,"triangle",.07,.6);boom(.9,1.25);sparkle(30,2,.6)}
+    ],
+    mini:[
+      ()=>tone(700,.07,"triangle",.07),
+      ()=>{tone(784,.09,"triangle",.08);tone(1175,.12,"triangle",.06,.06)},
+      ()=>{arp([659,784,1047],.06,.14,"triangle",.09);sparkle(3,.25)},
+      ()=>{boom(.4);arp([523,784,1047,1568],.06,.2,"square",.05);sparkle(6,.4)},
+      ()=>{boom(.6);arp([523,659,784,1047,1568],.06,.24,"triangle",.08);chord([392,523],.9,.06,.1);sparkle(10,.6)}
+    ]
+  };
+
+  // ---------- particules ----------
+  const fx=$("#chFx"),cx=fx.getContext("2d");let parts=[],praf=0,dpr=1,fw=0,fh=0,rainIv=0;
+  function sizeFx(){const r=fx.getBoundingClientRect();dpr=Math.min(2,devicePixelRatio||1);fw=r.width;fh=r.height;fx.width=fw*dpr;fx.height=fh*dpr}
+  const PAL=[["#d5dbe0","#9aa3ad","#fff"],["#bfe0ff","#4aa3ff","#fff"],["#e6c8ff","#b46bff","#fff","#ff9bf0"],["#fff1c9","#ffd36b","#ffb733","#ff8a3d"],null];
+  function col(ri){const p=PAL[ri];return p?p[Math.floor(Math.random()*p.length)]:"hsl("+Math.floor(Math.random()*360)+" 95% 62%)"}
+  function burst(x,y,ri,scale){
+    const n=Math.round([14,34,70,130,220][ri]*(scale||1)*(reduced()?.35:1));
+    for(let i=0;i<n;i++){
+      const a=Math.random()*Math.PI*2,sp=rnd(80,[260,340,430,520,640][ri]);
+      parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-rnd(60,200),g:520,life:rnd(.8,1.5),age:0,s:rnd(3,ri>=2?9:6),c:col(ri),shape:ri>=2&&Math.random()<.5?1:(Math.random()<.2?2:0),rot:rnd(0,6.28),vr:rnd(-8,8)});
+    }
+    if(!praf)praf=requestAnimationFrame(pframe);
+  }
+  function rain(ri,ms){
+    clearInterval(rainIv);const end=performance.now()+ms;
+    rainIv=setInterval(()=>{
+      if(performance.now()>end){clearInterval(rainIv);return}
+      for(let i=0;i<(reduced()?1:4);i++)parts.push({x:rnd(0,fw),y:-10,vx:rnd(-40,40),vy:rnd(80,200),g:120,life:rnd(1.6,2.6),age:0,s:rnd(4,9),c:col(ri),shape:1,rot:rnd(0,6.28),vr:rnd(-6,6)});
+      if(!praf)praf=requestAnimationFrame(pframe);
+    },60);
+  }
+  let plast=0;
+  function pframe(t){
+    const dt=Math.min(.033,(t-(plast||t))/1000);plast=t;
+    cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,fw,fh);
+    parts=parts.filter(p=>(p.age+=dt)<p.life);
+    parts.forEach(p=>{
+      p.vy+=p.g*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rot+=p.vr*dt;
+      cx.globalAlpha=Math.max(0,Math.min(1,(p.life-p.age)*1.6));cx.fillStyle=p.c;
+      cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);
+      if(p.shape===1)cx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);
+      else if(p.shape===2){cx.beginPath();cx.moveTo(0,-p.s*1.4);cx.lineTo(p.s*.35,0);cx.lineTo(0,p.s*1.4);cx.lineTo(-p.s*.35,0);cx.closePath();cx.fill()}
+      else{cx.beginPath();cx.arc(0,0,p.s/2,0,7);cx.fill()}
+      cx.restore();
+    });
+    cx.globalAlpha=1;
+    if(parts.length||rainIv)praf=requestAnimationFrame(pframe);else{praf=0;plast=0;cx.clearRect(0,0,fw,fh)}
+  }
+
+  // ---------- attentes interruptibles ----------
+  function wait(ms){
+    return new Promise(res=>{
+      if(skipFlag)return res();
+      const done=()=>{clearTimeout(tm);waiters=waiters.filter(w=>w!==done);res()};
+      const tm=setTimeout(done,ms);waiters.push(done);
+    });
+  }
+  function skip(){skipFlag=true;waiters.slice().forEach(f=>f())}
+
+  // ---------- tirage ----------
+  function pull(){
+    const force=S.pity>=PITY?2:0;
+    const pool=R.map((r,i)=>[i,r.w]).filter(p=>p[0]>=force),tot=pool.reduce((s,p)=>s+p[1],0);
+    let x=Math.random()*tot,ri=pool[pool.length-1][0];
+    for(const p of pool){x-=p[1];if(x<0){ri=p[0];break}}
+    S.pity=ri>=2?0:S.pity+1;
+    const cand=ITEMS.map((it,id)=>({it,id})).filter(o=>o.it.r===ri),o=cand[Math.floor(Math.random()*cand.length)];
+    const had=S.owned[o.id]||0;S.owned[o.id]=had+1;
+    S.best=Math.max(S.best,ri);
+    const gain=had?R[ri].g:0;S.coins+=gain;
+    return {id:o.id,it:o.it,ri,isNew:!had,gain};
+  }
+
+  // ---------- affichage ----------
+  function stats(){
+    const left=PITY-S.pity+1;
+    $("#chStat").innerHTML="<span>Pièces : <b id=\"chCoins\">"+shown+"</b></span><span>Coffres ouverts : "+S.opened+"</span><span>"+(left<=1?"Prochain coffre : épique ou mieux garanti !":"Épique garanti dans "+left+" coffres")+"</span>";
+  }
+  function ui(){
+    $("#chOpen").disabled=busy||S.coins<COST;$("#chOpen10").disabled=busy||S.coins<COST10;
+    $("#chSkip").hidden=!busy;$("#chFree").hidden=busy||S.coins>=COST;
+    stats();
+  }
+  function countTo(v){
+    const from=shown,t0=performance.now(),d=reduced()?1:600;
+    (function f(t){const k=Math.min(1,(t-t0)/d);shown=Math.round(from+(v-from)*k);const el=$("#chCoins");if(el)el.textContent=shown;if(k<1)requestAnimationFrame(f)})(t0);
+  }
+  function renderColl(fresh){
+    const box=$("#chColl");box.innerHTML="";let n=0;
+    ITEMS.forEach((it,id)=>{
+      const c=S.owned[id]||0,d=document.createElement("div");d.className="ch-cell"+(c?"":" lock")+(fresh&&fresh.includes(id)?" fresh":"");
+      d.style.setProperty("--rc",R[it.r].c);d.title=c?it.n+" ("+R[it.r].n+")":"???";
+      if(c){n++;fillIco(d,it);const rs=document.createElement("span");rs.className="rs";rs.textContent="★".repeat(R[it.r].s);d.appendChild(rs);if(c>1){const b=document.createElement("span");b.className="n";b.textContent="×"+c;d.appendChild(b)}}
+      else d.textContent="?";
+      box.appendChild(d);
+    });
+    $("#chProg").textContent=n+" / "+ITEMS.length;
+  }
+  function fillIco(el,it){
+    const f=it.img!==undefined&&TOP[it.img]&&TOP[it.img].src;
+    if(f){const im=new Image();im.src=TOP[it.img].src;im.alt="";el.appendChild(im)}else el.appendChild(document.createTextNode(it.e));
+  }
+  const flash=ri=>{flashEl.style.setProperty("--rc",R[ri].c);flashEl.classList.remove("go");void flashEl.offsetWidth;flashEl.classList.add("go")};
+  const shake=()=>{if(reduced())return;stage.classList.remove("sh");void stage.offsetWidth;stage.classList.add("sh")};
+
+  function setCard(p){
+    card.className="ch-card"+(p.ri===4?" m":"");card.style.setProperty("--rc",R[p.ri].c);
+    const ico=card.querySelector(".ico");ico.textContent="";fillIco(ico,p.it);
+    card.querySelector(".nm").textContent=p.it.n;card.querySelector(".rr").textContent=R[p.ri].n;
+    card.querySelector(".st").innerHTML=Array.from({length:R[p.ri].s},()=>"<i>★</i>").join("");
+    const nw=$("#chNew");nw.classList.remove("on");nw.textContent=p.isNew?"NOUVEAU !":"+"+p.gain+" pièces";
+  }
+  function resetStage(){
+    clearInterval(rainIv);rainIv=0;
+    card.className="ch-card";grid.hidden=true;grid.innerHTML="";
+    chest.className="ch-chest";chest.style.setProperty("--amp",0);
+    stage.classList.remove("tease","sh");stage.style.setProperty("--ro",0);
+  }
+
+  async function revealOne(p){
+    setCard(p);stage.style.setProperty("--rc",R[p.ri].c);
+    stage.style.setProperty("--ro",[0,.3,.55,.85,1][p.ri]);
+    void card.offsetWidth;card.classList.add("show");
+    sfx.big[p.ri]();
+    const r=stage.getBoundingClientRect();
+    burst(r.width/2,r.height/2,p.ri,1);
+    if(p.ri>=2)flash(p.ri);
+    if(p.ri>=3)shake();
+    if(p.ri===3)rain(3,1500);if(p.ri===4)rain(4,2600);
+    await wait(p.ri>=3?600:420);
+    const stars=card.querySelectorAll(".st i");
+    for(let k=0;k<stars.length;k++){stars[k].classList.add("on");sfx.star(k);await wait(p.ri>=3?170:120)}
+    $("#chNew").classList.add("on");if(!p.isNew)sfx.coin();
+    await wait(300);
+  }
+  async function revealMany(pulls){
+    chest.classList.add("away");grid.hidden=false;grid.innerHTML="";
+    const minis=pulls.map(p=>{
+      const m=document.createElement("div");m.className="ch-mini";m.style.setProperty("--rc",R[p.ri].c);
+      m.innerHTML='<div class="in"><div class="b">?</div><div class="f"><span class="ico"></span><small>'+R[p.ri].n+'</small></div></div>';
+      fillIco(m.querySelector(".ico"),p.it);grid.appendChild(m);return m;
+    });
+    const sr=stage.getBoundingClientRect();
+    for(let i=0;i<pulls.length;i++){
+      await wait(300);minis[i].classList.add("flip");
+      const p=pulls[i],r=minis[i].getBoundingClientRect();
+      sfx.mini[p.ri]();burst(r.left-sr.left+r.width/2,r.top-sr.top+r.height/2,p.ri,.45);
+      if(p.ri>=3){shake();flash(p.ri)}
+    }
+    await wait(350);
+    let bi=0;pulls.forEach((p,i)=>{if(p.ri>pulls[bi].ri)bi=i});
+    const b=pulls[bi];
+    stage.style.setProperty("--rc",R[b.ri].c);stage.style.setProperty("--ro",[0,.3,.55,.85,1][b.ri]);
+    minis[bi].classList.add("best");sfx.big[b.ri]();
+    burst(sr.width/2,sr.height/2,b.ri,1);flash(b.ri);if(b.ri>=3)shake();
+    if(b.ri===3)rain(3,1500);if(b.ri===4)rain(4,2600);
+    await wait(900);
+  }
+
+  async function open(n){
+    const cost=n===10?COST10:COST;
+    if(busy||S.coins<cost)return;
+    A();busy=true;skipFlag=false;S.coins-=cost;shown=S.coins;
+    const pulls=[];for(let i=0;i<n;i++)pulls.push(pull());
+    S.opened+=n;save();ui();
+    const best=Math.max(...pulls.map(p=>p.ri)),gainTot=pulls.reduce((s,p)=>s+p.gain,0);
+    resetStage();sizeFx();
+    msg.textContent="Le coffre tremble…";
+    // 1) le coffre tremble de plus en plus ; sa lueur révèle la rareté avant l'ouverture
+    const dur=reduced()?450:(n===10?1100:1600),t0=performance.now();
+    chest.classList.add("shake");sfx.rumble(dur/1000+.2);
+    const iv=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/dur);chest.style.setProperty("--amp",(1+k*7).toFixed(1));sfx.tick(Math.floor(k*14))},130);
+    await wait(dur*.55);
+    stage.style.setProperty("--rc",R[best].c);stage.classList.add("tease");
+    await wait(dur*.45);
+    clearInterval(iv);
+    // 2) le couvercle saute
+    chest.classList.remove("shake");chest.style.removeProperty("transform");chest.classList.add("open");
+    sfx.open();flash(best);
+    await wait(380);
+    // 3) révélation
+    if(n===1)await revealOne(pulls[0]);else await revealMany(pulls);
+    const fresh=pulls.filter(p=>p.isNew).map(p=>p.id);
+    if(n===1){const p=pulls[0];msg.textContent=R[p.ri].n+" ! "+p.it.n+(p.isNew?" — nouveau dans ta collection":" — doublon, +"+p.gain+" pièces")}
+    else{const nb=pulls.filter(p=>p.isNew).length;msg.textContent="Meilleur objet : "+R[best].n+". "+nb+" nouveau"+(nb>1?"x":"")+(gainTot?", +"+gainTot+" pièces de doublons":"")}
+    countTo(S.coins);renderColl(fresh);busy=false;skipFlag=false;ui();
+  }
+
+  $("#chOpen").onclick=()=>{open(1);$("#chOpen").blur()};
+  $("#chOpen10").onclick=()=>{open(10);$("#chOpen10").blur()};
+  $("#chSkip").onclick=()=>{skip();$("#chSkip").blur()};
+  $("#chFree").onclick=()=>{S.coins+=FREE;shown=S.coins;save();msg.textContent="+"+FREE+" pièces offertes !";if(soundOn){A();sfx.coin()}ui();$("#chFree").blur()};
+  const sndLabel=()=>{$("#chSnd").textContent="Son : "+(soundOn?"activé":"coupé")};sndLabel();
+  $("#chSnd").onclick=()=>{soundOn=!soundOn;try{localStorage.setItem("coffreSound",soundOn?"on":"off")}catch(e){}sndLabel();if(soundOn){A();sfx.coin()}$("#chSnd").blur()};
+  $("#chReset").onclick=()=>{
+    const b=$("#chReset");
+    if(Date.now()-resetArm>4000){resetArm=Date.now();b.textContent="Confirmer ?";setTimeout(()=>{if(Date.now()-resetArm>=3900)b.textContent="Réinitialiser"},4000);return}
+    S={coins:300,owned:{},opened:0,pity:0,best:-1};shown=300;save();resetArm=0;b.textContent="Réinitialiser";
+    resetStage();chest.classList.add("idle");msg.textContent="Collection remise à zéro.";renderColl();ui();
+  };
+  msg.textContent="Prêt à ouvrir un coffre ?";
+  renderColl();ui();
 })();
 
 // Onglets des mini-jeux
